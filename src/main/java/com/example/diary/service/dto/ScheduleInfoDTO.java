@@ -10,15 +10,15 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
-public class ScheduleInfoDto {
+public class ScheduleInfoDTO {
     private final Long id;
     private final String title;
     private final String content;
     private final String author;
     private final LocalDate createdAt;
 
-    public static ScheduleInfoDto from(Schedule schedule) {
-        return ScheduleInfoDto.builder()
+    public static ScheduleInfoDTO from(Schedule schedule) {
+        return ScheduleInfoDTO.builder()
                 .id(schedule.getId())
                 .title(schedule.getTitle())
                 .content(schedule.getContent())
