@@ -29,7 +29,7 @@ Spring MVC를 활용하여 CRUD를 연습하기 위한 일정 관리 프로젝�
 
 ![Screenshot 2024-01-19 at 4 53 14 PM](https://github.com/Dittttto/springboot-diary/assets/82052272/d51c420f-8f7f-4b26-a9d4-7254daa9b9f4)
 
-## User Diagram
+## Usecase Diagram
 
 ![Screenshot 2024-01-19 at 4 52 51 PM](https://github.com/Dittttto/springboot-diary/assets/82052272/73ca57b0-3321-4cf9-9368-fe801a348a10)
 
