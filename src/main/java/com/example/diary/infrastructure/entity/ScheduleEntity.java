@@ -1,21 +1,23 @@
 package com.example.diary.infrastructure.entity;
 
+import com.example.diary.model.Schedule;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
 @Entity
-@Table
+@Table(name = "schedule")
 @Getter
+@Setter
 @Builder
-@SQLDelete(sql = "update \"schedule\" set deleted_at = NOT() where id = ?")
-@Where(clause = "deleted_at is NULL")
+@SQLDelete(sql = "update schedule set deleted_at = NOW() where id = ?")
+@SQLRestriction(value = "deleted_at is NULL")
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -45,7 +47,7 @@ public class ScheduleEntity {
     private LocalDate updatedAt;
 
     @Column(name = "deleted_at")
-    private LocalDate deleted_at;
+    private LocalDate deletedAt;
 
     public static ScheduleEntity of(String title,
                                     String content,
@@ -57,6 +59,19 @@ public class ScheduleEntity {
                 .content(content)
                 .password(password)
                 .author(author)
+                .build();
+    }
+
+    public Schedule toModel() {
+        return Schedule.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .password(password)
+                .author(author)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .deletedAt(deletedAt)
                 .build();
     }
 }
