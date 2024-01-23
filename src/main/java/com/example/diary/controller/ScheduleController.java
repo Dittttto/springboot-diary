@@ -24,24 +24,31 @@ public class ScheduleController {
     }
 
     @GetMapping("/{scheduleId}")
-    public ResponseEntity<ResponseDTO<ScheduleInfoDTO>> getSchedule(@PathVariable long scheduleId) {
+    public ResponseEntity<ResponseDTO<ScheduleInfoDTO>> getSchedule(
+            @PathVariable long scheduleId) {
         return ResponseEntity.ok(ResponseDTO.success(service.getScheduleById(scheduleId)));
     }
 
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<String>> createSchedule(@RequestBody ScheduleCreateRequestDTO dto) {
+    public ResponseEntity<ResponseDTO<String>> createSchedule(
+            @RequestBody ScheduleCreateRequestDTO dto) {
+
         service.register(dto);
         return ResponseEntity.ok(ResponseDTO.success("성공적으로 등록되었습니다."));
     }
 
     @PutMapping
-    public ResponseEntity<ResponseDTO<ScheduleInfoDTO>> modifySchedule(@RequestBody ScheduleUpdateRequestDTO dto) {
+    public ResponseEntity<ResponseDTO<ScheduleInfoDTO>> modifySchedule(
+            @RequestBody ScheduleUpdateRequestDTO dto) {
+
         return ResponseEntity.ok(ResponseDTO.success(service.modifySchedule(dto)));
     }
 
     @DeleteMapping
-    public ResponseEntity<ResponseDTO<String>> deleteSchedule(@RequestBody ScheduleDeleteRequestDTO dto) {
+    public ResponseEntity<ResponseDTO<String>> deleteSchedule(
+            @RequestBody ScheduleDeleteRequestDTO dto) {
+
         service.deleteById(dto);
         return ResponseEntity.ok(ResponseDTO.success("성공적으로 삭제되었습니다."));
     }
