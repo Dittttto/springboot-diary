@@ -1,7 +1,7 @@
-package com.example.diary.service.dto;
+package com.example.diary.domain.schedule.service;
 
-import com.example.diary.exception.CustomException;
-import com.example.diary.exception.ErrorCode;
+import com.example.diary.global.exception.CustomException;
+import com.example.diary.global.exception.ErrorCode;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
 

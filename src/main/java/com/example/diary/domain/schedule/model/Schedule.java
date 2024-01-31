@@ -1,7 +1,7 @@
-package com.example.diary.model;
+package com.example.diary.domain.schedule.model;
 
-import com.example.diary.exception.CustomException;
-import com.example.diary.exception.ErrorCode;
+import com.example.diary.global.exception.CustomException;
+import com.example.diary.global.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +40,7 @@ public class Schedule {
                 .build();
     }
 
-    public void delete(String password) {
+    public void deleteSchedule(String password) {
         if (!this.password.equals(password)) {
             throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
         }

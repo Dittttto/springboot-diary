@@ -1,12 +1,12 @@
-package com.example.diary.repository;
+package com.example.diary.domain.schedule.repository;
 
-import com.example.diary.exception.CustomException;
-import com.example.diary.exception.ErrorCode;
-import com.example.diary.infrastructure.ScheduleJpaRepository;
-import com.example.diary.infrastructure.entity.ScheduleEntity;
-import com.example.diary.model.Schedule;
-import com.example.diary.service.dto.ScheduleCreateDTO;
-import com.example.diary.service.dto.ScheduleUpdateDTO;
+import com.example.diary.global.exception.CustomException;
+import com.example.diary.global.exception.ErrorCode;
+import com.example.diary.domain.schedule.infrastructure.ScheduleJpaRepository;
+import com.example.diary.domain.schedule.infrastructure.entity.ScheduleEntity;
+import com.example.diary.domain.schedule.model.Schedule;
+import com.example.diary.domain.schedule.service.ScheduleCreateDTO;
+import com.example.diary.domain.schedule.service.ScheduleUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

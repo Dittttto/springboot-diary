@@ -1,9 +1,9 @@
-package com.example.diary.service;
+package com.example.diary.domain.schedule.service;
 
-import com.example.diary.controller.request.ScheduleCreateRequestDTO;
-import com.example.diary.controller.request.ScheduleDeleteRequestDTO;
-import com.example.diary.controller.request.ScheduleUpdateRequestDTO;
-import com.example.diary.service.dto.ScheduleInfoDTO;
+
+import com.example.diary.domain.schedule.controller.request.ScheduleCreateRequestDTO;
+import com.example.diary.domain.schedule.controller.request.ScheduleDeleteRequestDTO;
+import com.example.diary.domain.schedule.controller.request.ScheduleUpdateRequestDTO;
 
 import java.util.List;
 

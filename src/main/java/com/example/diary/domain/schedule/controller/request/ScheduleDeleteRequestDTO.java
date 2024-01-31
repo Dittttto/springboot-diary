@@ -1,4 +1,4 @@
-package com.example.diary.controller.request;
+package com.example.diary.domain.schedule.controller.request;
 
 public record ScheduleDeleteRequestDTO(Long id, String password) {
 }

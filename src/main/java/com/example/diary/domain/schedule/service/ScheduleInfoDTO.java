@@ -1,6 +1,6 @@
-package com.example.diary.service.dto;
+package com.example.diary.domain.schedule.service;
 
-import com.example.diary.model.Schedule;
+import com.example.diary.domain.schedule.model.Schedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

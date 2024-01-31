@@ -1,6 +1,6 @@
-package com.example.diary.infrastructure.entity;
+package com.example.diary.domain.schedule.infrastructure.entity;
 
-import com.example.diary.model.Schedule;
+import com.example.diary.domain.schedule.model.Schedule;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

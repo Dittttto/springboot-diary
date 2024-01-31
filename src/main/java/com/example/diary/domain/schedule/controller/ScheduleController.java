@@ -1,11 +1,11 @@
-package com.example.diary.controller;
+package com.example.diary.domain.schedule.controller;
 
-import com.example.diary.controller.request.ScheduleCreateRequestDTO;
-import com.example.diary.controller.request.ScheduleDeleteRequestDTO;
-import com.example.diary.controller.request.ScheduleUpdateRequestDTO;
-import com.example.diary.controller.response.ResponseDTO;
-import com.example.diary.service.ScheduleService;
-import com.example.diary.service.dto.ScheduleInfoDTO;
+import com.example.diary.domain.schedule.controller.request.ScheduleCreateRequestDTO;
+import com.example.diary.domain.schedule.controller.request.ScheduleDeleteRequestDTO;
+import com.example.diary.domain.schedule.controller.request.ScheduleUpdateRequestDTO;
+import com.example.diary.global.web.dto.response.ResponseDTO;
+import com.example.diary.domain.schedule.service.ScheduleService;
+import com.example.diary.domain.schedule.service.ScheduleInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
