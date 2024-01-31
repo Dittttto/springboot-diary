@@ -1,4 +1,4 @@
-package com.example.diary.exception;
+package com.example.diary.global.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
