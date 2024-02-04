@@ -175,8 +175,8 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# Sonarlint
-.idea/sonarlint
+# idea
+.idea/**
 
 # db.properties
 src/main/resources/db.properties
