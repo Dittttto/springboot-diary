@@ -1,6 +1,7 @@
 package com.example.diary.domain.member.model;
 
 
+import com.example.diary.domain.member.infrastructure.entity.MemberEntity;
 import com.example.diary.domain.member.infrastructure.entity.MemberRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -22,7 +24,7 @@ public class Member {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
-    // TODO: update method 가 필요할까?
+    // TODO: update method 가 필요할까? -> 권한 변경이 있을 수 있지 않을까?
     public Member update(String username,
                          String password,
                          boolean isAdmin) {
@@ -41,7 +43,48 @@ public class Member {
     }
 
     public boolean isPasswordMatch(String password, BCryptPasswordEncoder passwordEncoder) {
-        // TODO: 암호화된 것이 필요함
         return passwordEncoder.matches(password, this.password);
+    }
+
+    public static Member from(MemberEntity entity){
+        return new Member(
+                entity.getId(),
+                entity.getEmail(),
+                entity.getUsername(),
+                entity.getPassword(),
+                entity.getRole(),
+                entity.getCreatedAt(),
+                entity.getUpdatedAt(),
+                entity.getDeletedAt()
+        );
+    }
+
+    public MemberEntity toEntity() {
+        return new MemberEntity(
+                id,
+                email,
+                username,
+                password,
+                role,
+                createdAt,
+                updatedAt,
+                deletedAt
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Member member)) return false;
+        return email != null && Objects.equals(email, member.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
+
+    public boolean hasNotAuthority(String email) {
+        return !this.email.equals(email);
     }
 }

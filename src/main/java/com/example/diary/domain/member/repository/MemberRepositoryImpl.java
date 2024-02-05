@@ -32,12 +32,12 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public Optional<Member> findById(Long id) {
-        return memberJpaRepository.findById(id).map(MemberEntity::toModel);
+        return memberJpaRepository.findById(id).map(Member::from);
     }
 
     @Override
     public Optional<Member> findByEmail(String email) {
-        return memberJpaRepository.findByEmail(email).map(MemberEntity::toModel);
+        return memberJpaRepository.findByEmail(email).map(Member::from);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         entity.setRole(dto.getRole());
 
         memberJpaRepository.saveAndFlush(entity);
-        return entity.toModel();
+        return Member.from(entity);
     }
 
     @Override
