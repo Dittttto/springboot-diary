@@ -1,4 +1,4 @@
-package com.example.diary.domain.schedule.service;
+package com.example.diary.domain.schedule.service.dto;
 
 import com.example.diary.domain.schedule.model.Schedule;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,6 @@ public class ScheduleUpdateDTO {
         return ScheduleUpdateDTO.builder()
                 .title(schedule.getTitle())
                 .content(schedule.getContent())
-                .author(schedule.getAuthor())
                 .password(schedule.getPassword())
                 .build();
     }
