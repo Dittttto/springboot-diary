@@ -1,7 +1,7 @@
 package com.example.diary.domain.member.infrastructure.entity;
 
-import com.example.diary.domain.member.model.Member;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "update member set deleted_at = NOW() where id = ?")
 @SQLRestriction(value = "deleted_at is NULL")
 @NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class MemberEntity {
     @Id
@@ -52,26 +53,15 @@ public class MemberEntity {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    public MemberEntity(String email,
-                        String username,
-                        String password,
-                        MemberRole role) {
+    public MemberEntity(
+            String email,
+            String username,
+            String password,
+            MemberRole role
+    ) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.role = role;
-    }
-
-    public Member toModel() {
-        return new Member(
-                id,
-                email,
-                username,
-                password,
-                role,
-                createdAt,
-                updatedAt,
-                deletedAt
-        );
     }
 }

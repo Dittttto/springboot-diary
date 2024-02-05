@@ -1,12 +1,12 @@
 package com.example.diary.domain.schedule.repository;
 
-import com.example.diary.global.exception.CustomException;
-import com.example.diary.global.exception.ErrorCode;
 import com.example.diary.domain.schedule.infrastructure.ScheduleJpaRepository;
 import com.example.diary.domain.schedule.infrastructure.entity.ScheduleEntity;
 import com.example.diary.domain.schedule.model.Schedule;
-import com.example.diary.domain.schedule.service.ScheduleCreateDTO;
-import com.example.diary.domain.schedule.service.ScheduleUpdateDTO;
+import com.example.diary.domain.schedule.service.dto.ScheduleCreateDTO;
+import com.example.diary.domain.schedule.service.dto.ScheduleUpdateDTO;
+import com.example.diary.global.exception.CustomException;
+import com.example.diary.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -21,24 +21,26 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     @Override
     public void register(ScheduleCreateDTO dto) {
-        scheduleJpaRepository.save(ScheduleEntity.of(
-                dto.getTitle(),
-                dto.getContent(),
-                dto.getPassword(),
-                dto.getAuthor()
-        ));
+        scheduleJpaRepository.save(
+                new ScheduleEntity(
+                        dto.getTitle(),
+                        dto.getContent(),
+                        dto.getPassword(),
+                        dto.getMember().toEntity()
+                )
+        );
     }
 
     @Override
     public Optional<Schedule> findById(Long id) {
-        return scheduleJpaRepository.findById(id).map(ScheduleEntity::toModel);
+        return scheduleJpaRepository.findById(id).map(Schedule::from);
     }
 
     @Override
     public List<Schedule> findAll() {
         return scheduleJpaRepository.findAll()
                 .stream()
-                .map(ScheduleEntity::toModel)
+                .map(Schedule::from)
                 .toList();
     }
 
@@ -47,14 +49,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         ScheduleEntity entity = scheduleJpaRepository.findById(id)
                 .orElseThrow(()
                         -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION, String.format("%s는 존재하지 않습니다.", id)));
-        
+
 
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
-        entity.setAuthor(dto.getAuthor());
 
         scheduleJpaRepository.saveAndFlush(entity);
-        return entity.toModel();
+        return Schedule.from(entity);
     }
 
     @Override

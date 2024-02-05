@@ -1,6 +1,8 @@
 package com.example.diary.domain.member.util;
 
 import com.example.diary.domain.member.infrastructure.entity.MemberRole;
+import com.example.diary.global.exception.CustomJwtException;
+import com.example.diary.global.exception.JwtErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -20,6 +22,8 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
+
+import static com.example.diary.global.exception.JwtErrorCode.TOKEN_INVALID;
 
 @Slf4j
 @Component
@@ -92,7 +96,8 @@ public class JwtUtil { // TODO Util class 로 만드는 것은 어떨까?
         Cookie findCookie = Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(AUTHORIZATION_HEADER_KEY))
                 .findFirst()
-                .orElseThrow();// TODO: 어떤 예외를 처히하는게 맞을까?
+                .orElseThrow(() ->
+                        new CustomJwtException(TOKEN_INVALID, TOKEN_INVALID.getMessage()));// TODO: 어떤 예외를 처히하는게 맞을까?
 
         return URLDecoder.decode(findCookie.getValue(), StandardCharsets.UTF_8);
     }

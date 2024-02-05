@@ -1,8 +1,8 @@
 package com.example.diary.domain.schedule.repository;
 
 import com.example.diary.domain.schedule.model.Schedule;
-import com.example.diary.domain.schedule.service.ScheduleCreateDTO;
-import com.example.diary.domain.schedule.service.ScheduleUpdateDTO;
+import com.example.diary.domain.schedule.service.dto.ScheduleCreateDTO;
+import com.example.diary.domain.schedule.service.dto.ScheduleUpdateDTO;
 
 import java.util.List;
 import java.util.Optional;

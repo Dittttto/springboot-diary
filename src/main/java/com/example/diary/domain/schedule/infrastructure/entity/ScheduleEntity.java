@@ -1,6 +1,7 @@
 package com.example.diary.domain.schedule.infrastructure.entity;
 
-import com.example.diary.domain.schedule.model.Schedule;
+import com.example.diary.domain.comment.infrastructure.entity.CommentEntity;
+import com.example.diary.domain.member.infrastructure.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -10,6 +11,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "schedule")
@@ -32,11 +35,14 @@ public class ScheduleEntity {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "author")
-    private String author;
-
     @Column(name = "password")
     private String password;
+
+    @ManyToOne
+    private MemberEntity memberEntity;
+
+    @OneToMany(mappedBy = "schedule")
+    List<CommentEntity> commentEntities = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at")
@@ -49,29 +55,33 @@ public class ScheduleEntity {
     @Column(name = "deleted_at")
     private LocalDate deletedAt;
 
-    public static ScheduleEntity of(String title,
-                                    String content,
-                                    String password,
-                                    String author) {
-
-        return ScheduleEntity.builder()
-                .title(title)
-                .content(content)
-                .password(password)
-                .author(author)
-                .build();
+    public ScheduleEntity(
+            String title,
+            String content,
+            String password,
+            MemberEntity entity
+    ) {
+        this.title = title;
+        this.content = content;
+        this.password = password;
+        this.memberEntity = entity;
     }
 
-    public Schedule toModel() {
-        return Schedule.builder()
-                .id(id)
-                .title(title)
-                .content(content)
-                .password(password)
-                .author(author)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
-                .deletedAt(deletedAt)
-                .build();
+    public ScheduleEntity(Long id,
+                          String title,
+                          String content,
+                          String password,
+                          MemberEntity memberEntity,
+                          LocalDate createdAt,
+                          LocalDate updatedAt,
+                          LocalDate deletedAt) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.password = password;
+        this.memberEntity = memberEntity;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 }

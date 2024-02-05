@@ -1,5 +1,6 @@
-package com.example.diary.domain.schedule.service;
+package com.example.diary.domain.schedule.service.dto;
 
+import com.example.diary.domain.member.model.Member;
 import com.example.diary.global.exception.CustomException;
 import com.example.diary.global.exception.ErrorCode;
 import lombok.Getter;
@@ -9,24 +10,25 @@ import org.springframework.util.StringUtils;
 public class ScheduleCreateDTO {
     private final String title;
     private final String content;
-    private final String author;
     private final String password;
+    private final Member member;
 
-    public ScheduleCreateDTO(String title, String content, String author, String password) {
-        validation(title, content, author, password);
+    public ScheduleCreateDTO(String title, String content, String password, Member member) {
+        validation(title, content, password, member);
         this.title = title;
         this.content = content;
-        this.author = author;
         this.password = password;
+        this.member = member;
     }
 
-    private void validation(String title, String content, String author, String password) {
+    private void validation(String title, String content, String password, Member member) {
         checkTitleLength(title);
         checkContentLength(content);
         checkPasswordLength(password);
-        checkHasText(author, "author");
+        checkIsNull(member);
     }
 
+    // TODO refactoring: concat checkIsNull
     private void checkHasText(String target, String field) {
         if (!StringUtils.hasText(target)) {
             throw new CustomException(ErrorCode.REQUIRED_FIELD_EXCEPTION,
@@ -52,6 +54,12 @@ public class ScheduleCreateDTO {
         checkHasText(password, "password");
         if (password.length() > 10 || password.length() < 3) {
             throw new CustomException(ErrorCode.PASSWORD_LENGTH_EXCEPTION);
+        }
+    }
+
+    private void checkIsNull(Member member) {
+        if (member == null) {
+            throw new CustomException(ErrorCode.REQUIRED_FIELD_EXCEPTION);
         }
     }
 }
