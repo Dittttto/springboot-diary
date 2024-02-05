@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -28,6 +30,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void register(MemberCreateRequestDTO dto) {
+        Optional<Member> findMember = memberRepository.findByEmail(dto.email());
+        if (findMember.isPresent()){
+            throw new CustomException(ErrorCode.DUPLICATE_USER_EXCEPTION);
+        }
+
         MemberCreateDTO memberCreateDTO = new MemberCreateDTO(
                 dto.username(),
                 dto.email(),
@@ -74,6 +81,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public String login(MemberLoginRequestDTO dto) {
+        // TODO: 가입된 회원이 없는 경우는?
         Member member = memberRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 
