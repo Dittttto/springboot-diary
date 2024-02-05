@@ -23,6 +23,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (isSwaggerRequest(request)) {
+            return true;
+        }
         log.info("interceptor for login check");
         String tokenValue = jwtUtil.getTokenFromRequest(request);
 
@@ -41,5 +44,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         request.setAttribute("member", member);
         return true;
+    }
+
+    private boolean isSwaggerRequest(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        return uri.contains("swagger") || uri.contains("api-docs") || uri.contains("webjars");
     }
 }

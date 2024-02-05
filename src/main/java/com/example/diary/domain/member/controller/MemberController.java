@@ -4,14 +4,19 @@ import com.example.diary.domain.member.controller.request.MemberCreateRequestDTO
 import com.example.diary.domain.member.controller.request.MemberDeleteRequestDTO;
 import com.example.diary.domain.member.controller.request.MemberLoginRequestDTO;
 import com.example.diary.domain.member.controller.request.MemberUpdateRequestDTO;
-import com.example.diary.domain.member.util.JwtUtil;
-import com.example.diary.global.web.dto.response.ResponseDTO;
+import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.member.service.MemberServiceImpl;
 import com.example.diary.domain.member.service.dto.MemberInfoDTO;
+import com.example.diary.domain.member.util.JwtUtil;
+import com.example.diary.domain.member.util.ValidationChecker;
+import com.example.diary.global.web.dto.response.ResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,50 +25,69 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberServiceImpl memberService;
     private final JwtUtil jwtUtil;
+
+    @Operation(summary = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseDTO<String>> signup(
-            @RequestBody MemberCreateRequestDTO dto
+            @Validated @RequestBody MemberCreateRequestDTO dto,
+            BindingResult bindingResult
     ) {
+        ValidationChecker.hasError(bindingResult);
+
         memberService.register(dto);
         return ResponseEntity.ok(ResponseDTO.success("정상적으로 회원가입 되었습니다."));
     }
 
+    @Operation(summary = "로그인")
     @PostMapping("/login")
     public ResponseEntity<ResponseDTO<String>> login(
-            @RequestBody MemberLoginRequestDTO dto,
-            HttpServletResponse response
-    ){
+            @Validated @RequestBody MemberLoginRequestDTO dto,
+            HttpServletResponse response,
+            BindingResult bindingResult
+    ) {
+        ValidationChecker.hasError(bindingResult);
+
         String token = memberService.login(dto);
         jwtUtil.addTokenToCookie(token, response);
-
-        // TODO 메시지를 중앙화 해야하지 않을까?
         return ResponseEntity.ok(ResponseDTO.success("정상적으로 로그인 되었습니다."));
     }
 
+    @Operation(summary = "회원정보 조회")
     @GetMapping("/{memberId}")
     public ResponseEntity<ResponseDTO<MemberInfoDTO>> getInfo(
+            @RequestAttribute("member") Member member,
             @PathVariable("memberId") Long id
     ) {
-        MemberInfoDTO memberInfoDTO = memberService.getById(id);
+        System.out.println(id);
+        MemberInfoDTO memberInfoDTO = memberService.getById(id, member);
         return ResponseEntity.ok(ResponseDTO.success(memberInfoDTO));
     }
 
+    @Operation(summary = "회원정보 수정")
     @PutMapping("/{memberId}")
     public ResponseEntity<ResponseDTO<MemberInfoDTO>> update(
-            @RequestBody MemberUpdateRequestDTO dto
+            @RequestAttribute("member") Member member,
+            @Validated @RequestBody MemberUpdateRequestDTO dto,
+            BindingResult bindingResult
     ) {
-        MemberInfoDTO memberInfoDTO = memberService.update(dto);
+        ValidationChecker.hasError(bindingResult);
+        MemberInfoDTO memberInfoDTO = memberService.update(dto, member);
         return ResponseEntity.ok(ResponseDTO.success(memberInfoDTO));
     }
 
+    @Operation(summary = "회원 삭제")
     @DeleteMapping("/{memberId}")
     public ResponseEntity<ResponseDTO<String>> delete(
-            @RequestBody MemberDeleteRequestDTO dto
+            @RequestAttribute("member") Member member,
+            @Validated @RequestBody MemberDeleteRequestDTO dto,
+            BindingResult bindingResult
     ) {
-        memberService.delete(dto);
+        ValidationChecker.hasError(bindingResult);
+        memberService.delete(dto, member);
         return ResponseEntity.ok(ResponseDTO.success("성공적으로 삭제 되었습니다."));
     }
 
+    @Operation(summary = "로그아웃")
     @PostMapping("/logout")
     public ResponseEntity<ResponseDTO<String>> logout(
             HttpServletRequest request
