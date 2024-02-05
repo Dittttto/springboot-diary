@@ -1,7 +1,11 @@
 package com.example.diary.domain.schedule.controller.request;
 
-public record ScheduleUpdateRequestDTO(Long id,
-                                       String title,
-                                       String content,
-                                       String password) {
+import jakarta.validation.constraints.NotNull;
+
+public record ScheduleUpdateRequestDTO(
+        @NotNull(message = "{NotNull}") Long id,
+        @NotNull(message = "{NotNull}") String title,
+        @NotNull(message = "{NotNull}") String content,
+        @NotNull(message = "{NotNull}") String password
+) {
 }

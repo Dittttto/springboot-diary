@@ -1,7 +1,11 @@
 package com.example.diary.domain.member.controller.request;
 
-public record MemberUpdateRequestDTO(Long id,
-                                     String username,
-                                     String password,
-                                     Boolean isAdmin) {
+import jakarta.validation.constraints.NotNull;
+
+public record MemberUpdateRequestDTO(
+        @NotNull(message = "{NotNull}") Long id,
+        @NotNull(message = "{NotNull}") String username,
+        @NotNull(message = "{NotNull}") String password,
+        @NotNull(message = "{NotNull}") Boolean isAdmin
+) {
 }

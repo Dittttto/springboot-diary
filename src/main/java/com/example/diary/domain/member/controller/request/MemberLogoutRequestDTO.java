@@ -1,4 +1,8 @@
 package com.example.diary.domain.member.controller.request;
 
-public record MemberLogoutRequestDTO(Long id) {
+import jakarta.validation.constraints.NotNull;
+
+public record MemberLogoutRequestDTO(
+        @NotNull(message = "{NotNull}") Long id
+) {
 }

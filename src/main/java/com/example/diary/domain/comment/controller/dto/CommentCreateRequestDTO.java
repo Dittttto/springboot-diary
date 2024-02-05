@@ -1,5 +1,9 @@
 package com.example.diary.domain.comment.controller.dto;
 
-public record CommentCreateRequestDTO(Long scheduleId,
-                                      String content) {
+import jakarta.validation.constraints.NotNull;
+
+public record CommentCreateRequestDTO(
+        @NotNull(message = "{NotNull}") Long scheduleId,
+        @NotNull(message = "{NotNull}") String content
+) {
 }
