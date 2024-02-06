@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CommentRepository {
     void register(CommentCreateDto dto);
+    void registerSubComment(Long parentCommentId, CommentCreateDto dto);
     Comment findById(Long id);
     List<Comment> findByMemberId(Long id);
     Comment updateById(Long id, String content);

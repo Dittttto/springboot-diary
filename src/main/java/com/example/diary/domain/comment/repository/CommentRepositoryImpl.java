@@ -18,13 +18,26 @@ public class CommentRepositoryImpl implements CommentRepository{
 
     @Override
     public void register(CommentCreateDto dto) {
-        CommentEntity commentEntity = new CommentEntity(
+        CommentEntity commentEntity = CommentEntity.of(
                 dto.getSchedule().toEntity(),
                 dto.getMember().toEntity(),
                 dto.getContent()
         );
 
         commentJpaRepository.save(commentEntity);
+    }
+
+    @Override
+    public void registerSubComment(Long parentCommentId, CommentCreateDto dto) {
+        CommentEntity parentComment = commentJpaRepository.getReferenceById(parentCommentId);
+
+        CommentEntity commentEntity = CommentEntity.of(
+                dto.getSchedule().toEntity(),
+                dto.getMember().toEntity(),
+                dto.getContent()
+        );
+
+        parentComment.addChildComment(commentEntity);
     }
 
     @Override
