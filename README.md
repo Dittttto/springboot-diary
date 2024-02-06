@@ -58,13 +58,12 @@ Spring MVC를 활용하여 CRUD를 연습하기 위한 일정 관리 프로젝�
 - Springdoc-openapi
 
 ## ERD
+![Screenshot 2024-02-06 at 5 16 47 PM](https://github.com/Dittttto/springboot-diary/assets/82052272/6cf83bfc-8ece-404f-a528-2eb6464aed4e)
 
-![Screenshot 2024-01-19 at 4 53 14 PM](https://github.com/Dittttto/springboot-diary/assets/82052272/d51c420f-8f7f-4b26-a9d4-7254daa9b9f4)
 
 ## Usecase Diagram
 
-![Screenshot 2024-01-19 at 4 52 51 PM](https://github.com/Dittttto/springboot-diary/assets/82052272/73ca57b0-3321-4cf9-9368-fe801a348a10)
-
+<img src="https://github.com/Dittttto/springboot-diary/assets/82052272/665fa720-9715-4770-a65d-40f08381477f" width=400>
 
 ## [API 명세서](/document/api.pdf)
 
