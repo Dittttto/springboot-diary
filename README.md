@@ -65,8 +65,9 @@ Spring MVC를 활용하여 CRUD를 연습하기 위한 일정 관리 프로젝�
 
 <img src="https://github.com/Dittttto/springboot-diary/assets/82052272/665fa720-9715-4770-a65d-40f08381477f" width=400>
 
-## [API 명세서](/document/api.pdf)
-
+## API 명세서
+- [Postman API documentation](https://shorturl.at/aeXY5)
+- [Postman API collection json](/document/scheduleManager.postman_collection.json)
 
 ## 현재 작업 중
 - 불필요한 DTO 클래스 삭제
