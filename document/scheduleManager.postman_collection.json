@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "a9479bb0-69fc-4a87-857e-290ab82e0ff4",
+		"name": "일정 관리 프로젝트",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "12972559"
+	},
+	"item": [
+		{
+			"name": "일정 목록 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/schedules",
+				"description": "전체 일정을 조회할 수 있다.\n\n``` json\n{\n    \"resultCode\": \"OK\",\n    \"body\": [\n        {\n            \"id\": 1,\n            \"title\": \"개인 프로젝트\",\n            \"content\": \"Spring MBC를 활용한 CRUD 프로젝트\",\n            \"author\": \"ditto\",\n            \"createdAt\": \"2024-01-19\"\n        },\n        {\n            \"id\": 6,\n            \"title\": \"개인 프로젝트\",\n            \"content\": \"Spring MBC를 활용한 CRUD 프로젝트\",\n            \"author\": \"ditto\",\n            \"createdAt\": \"2024-01-19\"\n        },\n        {\n            \"id\": 8,\n            \"title\": \"팀 과제\",\n            \"content\": \"modify content\",\n            \"author\": \"고라파덕\",\n            \"createdAt\": \"2024-01-19\"\n        },\n        {\n            \"id\": 9,\n            \"title\": \"개인 프로젝트\",\n            \"content\": \"Spring MBC를 활용한 CRUD 프로젝트\",\n            \"author\": \"ditto\",\n            \"createdAt\": \"2024-01-19\"\n        },\n        {\n            \"id\": 10,\n            \"title\": \"개인 프로젝트\",\n            \"content\": \"Spring MBC를 활용한 CRUD 프로젝트\",\n            \"author\": \"ditto\",\n            \"createdAt\": \"2024-01-19\"\n        },\n        {\n            \"id\": 11,\n            \"title\": \"개인 프로젝트\",\n            \"content\": \"Spring MBC를 활용한 CRUD 프로젝트\",\n            \"author\": \"ditto\",\n            \"createdAt\": \"2024-01-19\"\n        }\n    ]\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "사용자별 일정 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/schedules/member-group"
+			},
+			"response": []
+		},
+		{
+			"name": "일정 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/schedules/6"
+			},
+			"response": []
+		},
+		{
+			"name": "일정 생성",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"심화 프로젝트\",\n    \"content\": \"Spring MBC를 활용한 CRUD 프로젝트\",\n    \"password\": \"nbc1324\",\n    \"isPrivate\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/schedules"
+			},
+			"response": []
+		},
+		{
+			"name": "일정 삭제",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"password\": \"nbc1324\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/schedules"
+			},
+			"response": []
+		},
+		{
+			"name": "일정 수정",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 7,\n    \"title\": \"모다피 팀 과제\",\n    \"content\": \"modify content\",\n    \"author\": \"고라파덕\",\n    \"password\": \"nbc1324\",\n    \"isDone\": true,\n    \"isPrivate\": true,\n    \"assignedMemberId\": 4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/schedules"
+			},
+			"response": []
+		},
+		{
+			"name": "회원가입",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ditto@gmail.com\",\n    \"username\": \"ditto\",\n    \"password\": \"Qwer12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/users/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "로그인",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"ditto@gmail.com\",\n    \"password\": \"Qwer12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/users/login"
+			},
+			"response": []
+		},
+		{
+			"name": "로그아웃",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"ditto@pokemon.org\",\n    \"password\": \"qwer1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/users/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "회원 단 건 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/users/4"
+			},
+			"response": []
+		},
+		{
+			"name": "회원 수정",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 4,\n    \"username\": \"Super modafi\",\n    \"password\": \"Qwer12345678\",\n    \"isAdmin\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/users/3"
+			},
+			"response": []
+		},
+		{
+			"name": "회원 삭제",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\" : 5,\n    \"password\": \"Qwer12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/users/5"
+			},
+			"response": []
+		},
+		{
+			"name": "댓글조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/comments/2"
+			},
+			"response": []
+		},
+		{
+			"name": "댓글 생성",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scheduleId\":8,\n    \"content\": \"난 이미 했지44\",\n    \"parentCommentId\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/comments"
+			},
+			"response": []
+		},
+		{
+			"name": "댓글 수정",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"이것은 수정된 댓글!222\",\n    \"scheduleId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/v1/comments/1"
+			},
+			"response": []
+		},
+		{
+			"name": "댓글 삭제",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/comments/1"
+			},
+			"response": []
+		},
+		{
+			"name": "사용자가 작성한 댓글 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/comments/wroteComments"
+			},
+			"response": []
+		},
+		{
+			"name": "제목으로 검색",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/schedules/search?title=프로젝",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"schedules",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "프로젝"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
