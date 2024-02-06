@@ -13,10 +13,12 @@ import com.example.diary.global.exception.CustomException;
 import com.example.diary.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
@@ -33,14 +35,20 @@ public class CommentServiceImpl implements CommentService {
                 dto.content()
         );
 
-        commentRepository.register(createDto);
+        if (dto.parentCommentId() != null) {
+            commentRepository.registerSubComment(dto.parentCommentId(), createDto);
+        }else {
+            commentRepository.register(createDto);
+        }
     }
 
+    @Transactional(readOnly = true)
     public CommentInfoDTO findById(Long id) {
         Comment comment = commentRepository.findById(id);
         return CommentInfoDTO.from(comment);
     }
 
+    @Transactional(readOnly = true)
     public List<CommentInfoDTO> findByMemberId(Long memberId) {
         return commentRepository.findByMemberId(memberId).stream()
                 .map(CommentInfoDTO::from)
