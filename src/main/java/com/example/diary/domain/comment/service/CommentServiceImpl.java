@@ -49,13 +49,21 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentInfoDTO update(Long id, CommentUpdateRequestDTO dto, Member member) {
         Comment originComment = commentRepository.findById(id);
-        Comment updateComment = originComment.update(member, dto.content());
-        return CommentInfoDTO.from(commentRepository.updateById(id, updateComment.getContent()));
+
+        if (originComment.isNotOwner(member)){
+            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+        }
+
+        return CommentInfoDTO.from(commentRepository.updateById(id, dto.content()));
     }
 
     public void delete(Long id, Member member) {
         Comment comment = commentRepository.findById(id);
-        comment.delete(member); // TODO: 흐름이 부자연스럽다
+
+        if (comment.isNotOwner(member)){
+            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+        }
+
         commentRepository.deleteById(id);
     }
 }

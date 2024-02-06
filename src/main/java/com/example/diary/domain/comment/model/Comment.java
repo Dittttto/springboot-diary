@@ -63,12 +63,8 @@ public class Comment {
         );
     }
 
-    public void delete(Member member) {
-        checkAuthority(member);
-    }
-
-    private void checkAuthority(Member member) {
-        if (member.hasNotAuthority(memberInfo.getEmail())){
+    public boolean isNotOwner(Member member) {
+        if (member.hasNotAuthority(memberInfo.getEmail())) {
             throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
         }
     }
