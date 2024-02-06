@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record CommentCreateRequestDTO(
         @NotNull(message = "{NotNull}") Long scheduleId,
-        @NotNull(message = "{NotNull}") String content
+        @NotNull(message = "{NotNull}") String content,
+        Long parentCommentId
 ) {
 }
