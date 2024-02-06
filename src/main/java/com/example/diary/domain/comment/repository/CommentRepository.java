@@ -1,7 +1,7 @@
 package com.example.diary.domain.comment.repository;
 
 import com.example.diary.domain.comment.model.Comment;
-import com.example.diary.domain.comment.service.dto.CommentCreateDto;
+import com.example.diary.domain.comment.dto.service.CommentCreateDto;
 
 import java.util.List;
 

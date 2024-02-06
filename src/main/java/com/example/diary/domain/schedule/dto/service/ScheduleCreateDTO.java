@@ -1,4 +1,4 @@
-package com.example.diary.domain.schedule.service.dto;
+package com.example.diary.domain.schedule.dto.service;
 
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.global.exception.CustomException;
@@ -11,17 +11,36 @@ public class ScheduleCreateDTO {
     private final String title;
     private final String content;
     private final String password;
+    private final Boolean isDone;
+    private final Boolean isPrivate;
     private final Member member;
+    private final Member assignedMember;
 
-    public ScheduleCreateDTO(String title, String content, String password, Member member) {
+    public ScheduleCreateDTO(
+            String title,
+            String content,
+            String password,
+            Boolean isDone,
+            Boolean isPrivate,
+            Member member,
+            Member assignedMember
+    ) {
+        this.isDone = isDone;
+        this.isPrivate = isPrivate;
         validation(title, content, password, member);
         this.title = title;
         this.content = content;
         this.password = password;
         this.member = member;
+        this.assignedMember = assignedMember;
     }
 
-    private void validation(String title, String content, String password, Member member) {
+    private void validation(
+            String title,
+            String content,
+            String password,
+            Member member
+    ) {
         checkTitleLength(title);
         checkContentLength(content);
         checkPasswordLength(password);

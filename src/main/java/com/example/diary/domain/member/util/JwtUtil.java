@@ -2,7 +2,6 @@ package com.example.diary.domain.member.util;
 
 import com.example.diary.domain.member.infrastructure.entity.MemberRole;
 import com.example.diary.global.exception.CustomJwtException;
-import com.example.diary.global.exception.JwtErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -27,7 +26,7 @@ import static com.example.diary.global.exception.JwtErrorCode.TOKEN_INVALID;
 
 @Slf4j
 @Component
-public class JwtUtil { // TODO Util class 로 만드는 것은 어떨까?
+public class JwtUtil {
     private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
     private static final String AUTHORIZATION_KEY = "Auth";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -120,7 +119,7 @@ public class JwtUtil { // TODO Util class 로 만드는 것은 어떨까?
         return false;
     }
 
-    public void expiredToken(HttpServletRequest request) {
+    public void expireToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(AUTHORIZATION_HEADER_KEY))

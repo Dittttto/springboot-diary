@@ -3,6 +3,8 @@ package com.example.diary.domain.member.model;
 
 import com.example.diary.domain.member.infrastructure.entity.MemberEntity;
 import com.example.diary.domain.member.infrastructure.entity.MemberRole;
+import com.example.diary.global.exception.CustomException;
+import com.example.diary.global.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,16 +27,22 @@ public class Member {
     private LocalDateTime deletedAt;
 
     // TODO: update method 가 필요할까? -> 권한 변경이 있을 수 있지 않을까?
-    public Member update(String username,
-                         String password,
-                         boolean isAdmin) {
+    public Member update(
+            String username,
+            String password,
+            boolean isAdmin,
+            BCryptPasswordEncoder passwordEncoder
+    ) {
+        if (isPasswordNotMatch(password, passwordEncoder)) {
+            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+        }
 
         Member member = new Member();
         member.id = this.id;
         member.email = this.email;
         member.username = username;
-        member.password = password;
-        member.role= isAdmin ? MemberRole.ADMIN : MemberRole.DEFAULT;
+        member.password = this.password;
+        member.role = isAdmin ? MemberRole.ADMIN : MemberRole.DEFAULT;
         member.createdAt = createdAt;
         member.updatedAt = updatedAt;
         member.deletedAt = deletedAt;
@@ -42,11 +50,14 @@ public class Member {
         return member;
     }
 
-    public boolean isPasswordMatch(String password, BCryptPasswordEncoder passwordEncoder) {
-        return passwordEncoder.matches(password, this.password);
+    public boolean isPasswordNotMatch(
+            final String password,
+            final BCryptPasswordEncoder passwordEncoder
+    ) {
+        return !passwordEncoder.matches(password, this.password);
     }
 
-    public static Member from(MemberEntity entity){
+    public static Member from(final MemberEntity entity) {
         return new Member(
                 entity.getId(),
                 entity.getEmail(),
@@ -84,7 +95,7 @@ public class Member {
         return Objects.hash(email);
     }
 
-    public boolean hasNotAuthority(String email) {
-        return !this.email.equals(email);
+    public boolean isSameEmail(final String email) {
+        return this.email.equals(email);
     }
 }

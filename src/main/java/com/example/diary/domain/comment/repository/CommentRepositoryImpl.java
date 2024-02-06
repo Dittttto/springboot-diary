@@ -1,9 +1,9 @@
 package com.example.diary.domain.comment.repository;
 
+import com.example.diary.domain.comment.dto.service.CommentCreateDto;
 import com.example.diary.domain.comment.infrastructure.CommentJpaRepository;
 import com.example.diary.domain.comment.infrastructure.entity.CommentEntity;
 import com.example.diary.domain.comment.model.Comment;
-import com.example.diary.domain.comment.service.dto.CommentCreateDto;
 import com.example.diary.global.exception.CustomException;
 import com.example.diary.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentRepositoryImpl implements CommentRepository{
+public class CommentRepositoryImpl implements CommentRepository {
     private final CommentJpaRepository commentJpaRepository;
 
     @Override
@@ -29,7 +29,8 @@ public class CommentRepositoryImpl implements CommentRepository{
 
     @Override
     public void registerSubComment(Long parentCommentId, CommentCreateDto dto) {
-        CommentEntity parentComment = commentJpaRepository.getReferenceById(parentCommentId);
+        CommentEntity parentComment = commentJpaRepository
+                .getReferenceById(parentCommentId);
 
         CommentEntity commentEntity = CommentEntity.of(
                 dto.getSchedule().toEntity(),

@@ -1,8 +1,8 @@
 package com.example.diary.domain.member.repository;
 
 import com.example.diary.domain.member.model.Member;
-import com.example.diary.domain.member.service.dto.MemberCreateDTO;
-import com.example.diary.domain.member.service.dto.MemberUpdateDTO;
+import com.example.diary.domain.member.dto.service.MemberCreateDTO;
+import com.example.diary.domain.member.dto.service.MemberUpdateDTO;
 
 import java.util.Optional;
 

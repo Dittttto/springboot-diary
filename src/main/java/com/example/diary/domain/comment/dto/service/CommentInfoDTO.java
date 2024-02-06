@@ -1,7 +1,7 @@
-package com.example.diary.domain.comment.service.dto;
+package com.example.diary.domain.comment.dto.service;
 
 import com.example.diary.domain.comment.model.Comment;
-import com.example.diary.domain.member.service.dto.MemberInfoDTO;
+import com.example.diary.domain.member.dto.service.MemberInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -30,7 +30,9 @@ public class CommentInfoDTO {
                 comment.getScheduleId(),
                 comment.getContent(),
                 comment.getParentCommentId(),
-                comment.getChildComment().stream().map(CommentInfoDTO::from).collect(Collectors.toSet()),
+                comment.getChildComment().stream()
+                        .map(CommentInfoDTO::from)
+                        .collect(Collectors.toSet()),
                 comment.getCreatedAt(),
                 comment.getUpdatedAt()
         );

@@ -1,11 +1,11 @@
 package com.example.diary.domain.comment.service;
 
-import com.example.diary.domain.comment.controller.dto.CommentCreateRequestDTO;
+import com.example.diary.domain.comment.dto.request.CommentCreateRequestDTO;
+import com.example.diary.domain.comment.dto.request.CommentUpdateRequestDTO;
+import com.example.diary.domain.comment.dto.service.CommentCreateDto;
+import com.example.diary.domain.comment.dto.service.CommentInfoDTO;
 import com.example.diary.domain.comment.model.Comment;
 import com.example.diary.domain.comment.repository.CommentRepository;
-import com.example.diary.domain.comment.service.dto.CommentCreateDto;
-import com.example.diary.domain.comment.service.dto.CommentInfoDTO;
-import com.example.diary.domain.comment.controller.dto.CommentUpdateRequestDTO;
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.schedule.model.Schedule;
 import com.example.diary.domain.schedule.repository.ScheduleRepository;
@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
 
         if (dto.parentCommentId() != null) {
             commentRepository.registerSubComment(dto.parentCommentId(), createDto);
-        }else {
+        } else {
             commentRepository.register(createDto);
         }
     }
@@ -58,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentInfoDTO update(Long id, CommentUpdateRequestDTO dto, Member member) {
         Comment originComment = commentRepository.findById(id);
 
-        if (originComment.isNotOwner(member)){
+        if (originComment.isNotOwner(member)) {
             throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
         }
 
@@ -68,7 +68,7 @@ public class CommentServiceImpl implements CommentService {
     public void delete(Long id, Member member) {
         Comment comment = commentRepository.findById(id);
 
-        if (comment.isNotOwner(member)){
+        if (comment.isNotOwner(member)) {
             throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
         }
 

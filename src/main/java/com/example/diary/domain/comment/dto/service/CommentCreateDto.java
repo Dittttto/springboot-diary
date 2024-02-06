@@ -1,4 +1,4 @@
-package com.example.diary.domain.comment.service.dto;
+package com.example.diary.domain.comment.dto.service;
 
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.schedule.model.Schedule;

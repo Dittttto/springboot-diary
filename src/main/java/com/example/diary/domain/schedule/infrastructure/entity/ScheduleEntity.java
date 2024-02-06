@@ -10,19 +10,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Entity
-@Table(name = "schedule")
 @Getter
 @Setter
 @Builder
+@Table(name = "schedule")
 @SQLDelete(sql = "update schedule set deleted_at = NOW() where id = ?")
 @SQLRestriction(value = "deleted_at is NULL")
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @EntityListeners(AuditingEntityListener.class)
 public class ScheduleEntity {
     @Id
@@ -38,48 +38,72 @@ public class ScheduleEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne
-    private MemberEntity memberEntity;
+    @Column(name = "done")
+    private Boolean isDone;
 
+    @Column(name = "private")
+    private Boolean isPrivate;
+
+    @ManyToOne(optional = true)
+    private MemberEntity assignedMember;
+
+    @ManyToOne
+    private MemberEntity owner;
+
+    @ToString.Exclude
     @OneToMany(mappedBy = "schedule")
-    List<CommentEntity> commentEntities = new ArrayList<>();
+    Set<CommentEntity> commentEntities = new LinkedHashSet<>();
 
     @CreatedDate
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "deleted_at")
-    private LocalDate deletedAt;
+    private LocalDateTime deletedAt;
 
     public ScheduleEntity(
             String title,
             String content,
             String password,
-            MemberEntity entity
+            Boolean isDone,
+            Boolean isPrivate,
+            MemberEntity entity,
+            MemberEntity assignedMember
     ) {
         this.title = title;
         this.content = content;
         this.password = password;
-        this.memberEntity = entity;
+        this.owner = entity;
+        this.assignedMember = assignedMember;
+        this.isDone = isDone;
+        this.isPrivate = isPrivate;
     }
 
-    public ScheduleEntity(Long id,
-                          String title,
-                          String content,
-                          String password,
-                          MemberEntity memberEntity,
-                          LocalDate createdAt,
-                          LocalDate updatedAt,
-                          LocalDate deletedAt) {
+    public ScheduleEntity(
+            Long id,
+            String title,
+            String content,
+            String password,
+            Boolean isDone,
+            Boolean isPrivate,
+            MemberEntity assignedMember,
+            MemberEntity memberEntity,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            LocalDateTime deletedAt
+    ) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.password = password;
-        this.memberEntity = memberEntity;
+        this.isDone = isDone;
+        this.isPrivate = isPrivate;
+        this.assignedMember = assignedMember;
+        this.owner = memberEntity;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;

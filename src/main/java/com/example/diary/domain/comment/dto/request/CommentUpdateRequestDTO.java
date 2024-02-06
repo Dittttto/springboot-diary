@@ -1,4 +1,4 @@
-package com.example.diary.domain.comment.controller.dto;
+package com.example.diary.domain.comment.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
