@@ -1,19 +1,20 @@
 package com.example.diary.domain.member.service;
 
-import com.example.diary.domain.member.controller.request.MemberCreateRequestDTO;
-import com.example.diary.domain.member.controller.request.MemberDeleteRequestDTO;
-import com.example.diary.domain.member.controller.request.MemberLoginRequestDTO;
-import com.example.diary.domain.member.controller.request.MemberUpdateRequestDTO;
-import com.example.diary.domain.member.service.dto.MemberInfoDTO;
+import com.example.diary.domain.member.dto.request.MemberCreateRequestDTO;
+import com.example.diary.domain.member.dto.request.MemberDeleteRequestDTO;
+import com.example.diary.domain.member.dto.request.MemberLoginRequestDTO;
+import com.example.diary.domain.member.dto.request.MemberUpdateRequestDTO;
+import com.example.diary.domain.member.model.Member;
+import com.example.diary.domain.member.dto.service.MemberInfoDTO;
 
 public interface MemberService {
     void register(MemberCreateRequestDTO dto);
 
-    MemberInfoDTO getById(Long id);
+    MemberInfoDTO getById(Long id, Member member);
 
-    MemberInfoDTO update(MemberUpdateRequestDTO dto);
+    MemberInfoDTO update(Long id, MemberUpdateRequestDTO dto, Member member);
 
-    void delete(MemberDeleteRequestDTO dto);
+    void delete(Long id, MemberDeleteRequestDTO dto, Member member);
 
     String login(MemberLoginRequestDTO dto);
 }

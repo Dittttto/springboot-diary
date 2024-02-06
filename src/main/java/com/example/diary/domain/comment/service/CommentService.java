@@ -1,8 +1,8 @@
 package com.example.diary.domain.comment.service;
 
-import com.example.diary.domain.comment.controller.dto.CommentCreateRequestDTO;
-import com.example.diary.domain.comment.controller.dto.CommentUpdateRequestDTO;
-import com.example.diary.domain.comment.service.dto.CommentInfoDTO;
+import com.example.diary.domain.comment.dto.request.CommentCreateRequestDTO;
+import com.example.diary.domain.comment.dto.request.CommentUpdateRequestDTO;
+import com.example.diary.domain.comment.dto.service.CommentInfoDTO;
 import com.example.diary.domain.member.model.Member;
 
 import java.util.List;

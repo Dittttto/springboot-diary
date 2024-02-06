@@ -1,11 +1,11 @@
 package com.example.diary.domain.comment.service;
 
-import com.example.diary.domain.comment.controller.dto.CommentCreateRequestDTO;
+import com.example.diary.domain.comment.dto.request.CommentCreateRequestDTO;
+import com.example.diary.domain.comment.dto.request.CommentUpdateRequestDTO;
+import com.example.diary.domain.comment.dto.service.CommentCreateDto;
+import com.example.diary.domain.comment.dto.service.CommentInfoDTO;
 import com.example.diary.domain.comment.model.Comment;
 import com.example.diary.domain.comment.repository.CommentRepository;
-import com.example.diary.domain.comment.service.dto.CommentCreateDto;
-import com.example.diary.domain.comment.service.dto.CommentInfoDTO;
-import com.example.diary.domain.comment.controller.dto.CommentUpdateRequestDTO;
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.schedule.model.Schedule;
 import com.example.diary.domain.schedule.repository.ScheduleRepository;
@@ -13,10 +13,12 @@ import com.example.diary.global.exception.CustomException;
 import com.example.diary.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
@@ -33,14 +35,20 @@ public class CommentServiceImpl implements CommentService {
                 dto.content()
         );
 
-        commentRepository.register(createDto);
+        if (dto.parentCommentId() != null) {
+            commentRepository.registerSubComment(dto.parentCommentId(), createDto);
+        } else {
+            commentRepository.register(createDto);
+        }
     }
 
+    @Transactional(readOnly = true)
     public CommentInfoDTO findById(Long id) {
         Comment comment = commentRepository.findById(id);
         return CommentInfoDTO.from(comment);
     }
 
+    @Transactional(readOnly = true)
     public List<CommentInfoDTO> findByMemberId(Long memberId) {
         return commentRepository.findByMemberId(memberId).stream()
                 .map(CommentInfoDTO::from)
@@ -49,13 +57,21 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentInfoDTO update(Long id, CommentUpdateRequestDTO dto, Member member) {
         Comment originComment = commentRepository.findById(id);
-        Comment updateComment = originComment.update(member, dto.content());
-        return CommentInfoDTO.from(commentRepository.updateById(id, updateComment.getContent()));
+
+        if (originComment.isNotOwner(member)) {
+            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+        }
+
+        return CommentInfoDTO.from(commentRepository.updateById(id, dto.content()));
     }
 
     public void delete(Long id, Member member) {
         Comment comment = commentRepository.findById(id);
-        comment.delete(member); // TODO: 흐름이 부자연스럽다
+
+        if (comment.isNotOwner(member)) {
+            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+        }
+
         commentRepository.deleteById(id);
     }
 }

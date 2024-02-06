@@ -5,8 +5,8 @@ import com.example.diary.global.exception.ErrorCode;
 import com.example.diary.domain.member.infrastructure.MemberJpaRepository;
 import com.example.diary.domain.member.infrastructure.entity.MemberEntity;
 import com.example.diary.domain.member.model.Member;
-import com.example.diary.domain.member.service.dto.MemberCreateDTO;
-import com.example.diary.domain.member.service.dto.MemberUpdateDTO;
+import com.example.diary.domain.member.dto.service.MemberCreateDTO;
+import com.example.diary.domain.member.dto.service.MemberUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

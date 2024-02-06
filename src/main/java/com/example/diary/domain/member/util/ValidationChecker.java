@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ValidationChecker {
-    private ValidationChecker() {
-    }
+    private ValidationChecker() {}
 
     public static void hasError(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
