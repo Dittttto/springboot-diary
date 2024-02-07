@@ -30,6 +30,7 @@ public class JwtUtil {
     private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
     private static final String AUTHORIZATION_KEY = "Auth";
     private static final String BEARER_PREFIX = "Bearer ";
+    private static final Integer BEARER_PREFIX_LENGTH = 7;
     private static final Long TOKEN_EXPIRED_TIME = 60 * 60 * 1000L;
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
@@ -66,14 +67,11 @@ public class JwtUtil {
     }
 
     public String substringToken(String tokenValue) {
-        int lengthOfBearerPrefix = 7;
-        if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
-            return tokenValue.substring(lengthOfBearerPrefix);
+        if (!StringUtils.hasText(tokenValue) || !tokenValue.startsWith(BEARER_PREFIX)) {
+            throw new CustomJwtException(TOKEN_INVALID);
         }
 
-        // TODO: refactoring exception
-        log.error("[Token is null]");
-        throw new NullPointerException("Token is null");
+        return tokenValue.substring(BEARER_PREFIX_LENGTH);
     }
 
     public Claims getMemberInfoFromToken(String token) {
