@@ -5,7 +5,6 @@ import com.example.diary.global.exception.CustomJwtException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -67,7 +67,7 @@ public class JwtUtil {
 
     public String substringToken(String tokenValue) {
         int lengthOfBearerPrefix = 7;
-        if (StringUtils.isBlank(tokenValue) || tokenValue.startsWith(BEARER_PREFIX)) {
+        if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
             return tokenValue.substring(lengthOfBearerPrefix);
         }
 
