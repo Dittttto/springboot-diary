@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    runs-on: linux-latest # ubuntu 최신 버전에서 script 를 실행
+  build-test:
+    runs-on: ubuntu-latest # ubuntu 최신 버전에서 script 를 실행
     steps:
       - name: checkout source
         uses: actions/checkout@v3
