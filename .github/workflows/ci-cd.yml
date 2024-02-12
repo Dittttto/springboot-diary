@@ -54,5 +54,6 @@ jobs:
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{secrets.DOCKER_REPO}}:1.0
+            docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_REPO }}:latest
             docker-compose up -d
             docker image prune -f
