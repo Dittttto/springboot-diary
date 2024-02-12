@@ -2,7 +2,7 @@ package com.example.diary.global.interceptor;
 
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.member.repository.MemberRepository;
-import com.example.diary.domain.member.util.JwtUtil;
+import com.example.diary.global.jwt.JwtProvider;
 import com.example.diary.global.exception.CustomException;
 import com.example.diary.global.exception.CustomJwtException;
 import com.example.diary.global.exception.ErrorCode;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class LoginCheckInterceptor implements HandlerInterceptor {
     private final MemberRepository memberRepository;
-    private final JwtUtil jwtUtil;
+    private final JwtProvider jwtProvider;
 
     @Override
     public boolean preHandle(
@@ -31,21 +31,22 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String tokenValue = jwtUtil.getTokenFromRequest(request);
+//        String tokenValue = jwtProvider.getTokenFromRequest(request);
+        String tokenValue = "";
         if (!StringUtils.hasText(tokenValue) || tokenValue.equals("INVALID")) {
             throw new CustomJwtException(JwtErrorCode.TOKEN_INVALID);
         }
 
-        String token = jwtUtil.substringToken(tokenValue);
-        if (!jwtUtil.validate(token)) {
-            throw new CustomJwtException(JwtErrorCode.TOKEN_INVALID);
-        }
+        String token = jwtProvider.substringToken(tokenValue);
+//        if (!jwtProvider.validate(token)) {
+//            throw new CustomJwtException(JwtErrorCode.TOKEN_INVALID);
+//        }
 
-        Claims memberInfo = jwtUtil.getMemberInfoFromToken(token);
-        Member member = memberRepository.findByEmail(memberInfo.getSubject())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
-
-        request.setAttribute("member", member);
+//        Claims memberInfo = jwtProvider.getMemberInfoFromToken(token);
+//        Member member = memberRepository.findByEmail(memberInfo.getSubject())
+//                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
+//
+//        request.setAttribute("member", member);
         return true;
     }
 

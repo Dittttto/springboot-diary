@@ -7,7 +7,7 @@ import com.example.diary.domain.member.dto.request.MemberUpdateRequestDTO;
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.member.service.MemberServiceImpl;
 import com.example.diary.domain.member.dto.service.MemberInfoDTO;
-import com.example.diary.domain.member.util.JwtUtil;
+import com.example.diary.global.jwt.JwtProvider;
 import com.example.diary.domain.member.util.ValidationChecker;
 import com.example.diary.global.web.dto.response.ResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberServiceImpl memberService;
-    private final JwtUtil jwtUtil;
+    private final JwtProvider jwtProvider;
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
@@ -48,7 +48,7 @@ public class MemberController {
     ) {
         ValidationChecker.hasError(bindingResult);
         String token = memberService.login(dto);
-        jwtUtil.addTokenToCookie(token, response);
+//        jwtProvider.addTokenToCookie(token, response);
         return ResponseEntity
                 .ok(ResponseDTO.success("정상적으로 로그인 되었습니다."));
     }
@@ -97,7 +97,7 @@ public class MemberController {
     public ResponseEntity<ResponseDTO<String>> logout(
             HttpServletRequest request
     ) {
-        jwtUtil.expireToken(request);
+        jwtProvider.expireToken(request);
         return ResponseEntity
                 .ok(ResponseDTO.success("성공적으로 로그아웃 되었습니다."));
     }

@@ -10,7 +10,7 @@ import com.example.diary.domain.member.dto.service.MemberUpdateDTO;
 import com.example.diary.domain.member.infrastructure.entity.MemberRole;
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.member.repository.MemberRepository;
-import com.example.diary.domain.member.util.JwtUtil;
+import com.example.diary.global.jwt.JwtProvider;
 import com.example.diary.global.exception.CustomException;
 import com.example.diary.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final JwtProvider jwtProvider;
 
     @Override
     public void register(MemberCreateRequestDTO dto) {
@@ -105,6 +105,7 @@ public class MemberServiceImpl implements MemberService {
             throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
         }
 
-        return jwtUtil.generateToken(dto.email(), MemberRole.DEFAULT);
+//        return jwtProvider.generateToken(dto.email(), MemberRole.DEFAULT);
+        return null;
     }
 }

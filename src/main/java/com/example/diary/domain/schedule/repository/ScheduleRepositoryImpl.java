@@ -16,7 +16,6 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleRepository {
-
     private final ScheduleJpaRepository scheduleJpaRepository;
 
     @Override
@@ -43,8 +42,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     @Override
     public List<Schedule> findAll() {
-        return scheduleJpaRepository.findAllByOrderByCreatedAtDesc()
-                .stream()
+        return scheduleJpaRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(Schedule::from)
                 .toList();
     }
@@ -53,11 +51,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     public Schedule update(long id, ScheduleUpdateDTO dto) {
         ScheduleEntity entity = scheduleJpaRepository.findById(id)
                 .orElseThrow(()
-                        -> new CustomException(
-                        ErrorCode.NOT_FOUND_EXCEPTION,
-                        String.format("%s는 존재하지 않습니다.", id)
-                ));
-
+                        -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());

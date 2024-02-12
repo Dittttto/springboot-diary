@@ -38,7 +38,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                             new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
         }
 
-
         ScheduleCreateDTO scheduleCreateDTO = new ScheduleCreateDTO(
                 dto.title(),
                 dto.content(),
@@ -94,14 +93,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleInfoDTO getScheduleById(Long id) {
         Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() ->
+                        new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 
         return ScheduleInfoDTO.from(schedule);
     }
 
     @Override
     @Transactional
-    public ScheduleInfoDTO modifySchedule(ScheduleUpdateRequestDTO dto, Member member) {
+    public ScheduleInfoDTO modifySchedule(ScheduleUpdateRequestDTO dto,
+                                          Member member) {
         Schedule schedule = scheduleRepository.findById(dto.id())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 

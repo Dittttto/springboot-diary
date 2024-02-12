@@ -1,9 +1,9 @@
 package com.example.diary.global.jwt.repository;
 
-import com.ptjcoding.nbcampspringnewsfeed.global.exception.jwt.CustomJwtException;
-import com.ptjcoding.nbcampspringnewsfeed.global.exception.jwt.JwtErrorCode;
-import com.ptjcoding.nbcampspringnewsfeed.global.jwt.infrastructure.jpa.RefreshTokenJpaRepository;
-import com.ptjcoding.nbcampspringnewsfeed.global.jwt.infrastructure.jpa.entity.RefreshTokenEntity;
+import com.example.diary.global.exception.CustomJwtException;
+import com.example.diary.global.exception.JwtErrorCode;
+import com.example.diary.global.jwt.infrastructure.jpa.RefreshTokenJpaRepository;
+import com.example.diary.global.jwt.infrastructure.jpa.entity.RefreshTokenEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

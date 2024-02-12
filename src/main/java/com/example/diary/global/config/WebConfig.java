@@ -1,7 +1,7 @@
 package com.example.diary.global.config;
 
 import com.example.diary.domain.member.repository.MemberRepository;
-import com.example.diary.domain.member.util.JwtUtil;
+import com.example.diary.global.jwt.JwtProvider;
 import com.example.diary.global.interceptor.LoginCheckInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +12,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final MemberRepository memberRepository;
-    private final JwtUtil jwtUtil;
+    private final JwtProvider jwtProvider;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginCheckInterceptor(memberRepository, jwtUtil))
+        registry.addInterceptor(new LoginCheckInterceptor(memberRepository, jwtProvider))
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
