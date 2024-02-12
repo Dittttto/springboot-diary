@@ -4,7 +4,7 @@ name: CD with Gradle
 on:
   push:
     branches:
-      - main
+      - cicd
   pull_request:
     types: [ opened, reopened, synchronize ]
 
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: [ubuntu-latest] # ubuntu 최신 버전에서 script 를 실행
+    runs-on: linux-latest # ubuntu 최신 버전에서 script 를 실행
     steps:
       - name: checkout source
         uses: actions/checkout@v3
@@ -21,14 +21,14 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
 
       - name: Make application.properties
         run: |
-          ch ./src/main/resources
+          cd ./src/main/resources
           touch ./application.yml
-          echo "${{ secrets.PROPERTIES}}" > ./application.yml
+          echo "${{ secrets.PROPERTIES }}" > ./application.yml
         shell: bash
 
       - name: Build with Gradle
