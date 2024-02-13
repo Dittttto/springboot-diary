@@ -25,13 +25,13 @@ jobs:
           distribution: 'temurin'
 
       - name: Make application.yml
-        uses: actions/checkout@v3
         run: |
           cd ./src/main/resources
           rm -rf application.yml
           touch ./application.yml
           echo "${{ secrets.PROPERTIES }}" > ./application.yml
         shell: bash
+
       - name: checkout source
         uses: actions/upload-artifact@v2
         with:
