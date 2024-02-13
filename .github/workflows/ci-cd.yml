@@ -25,12 +25,18 @@ jobs:
           distribution: 'temurin'
 
       - name: Make application.yml
+        uses: actions/checkout@v3
         run: |
           cd ./src/main/resources
           rm -rf application.yml
           touch ./application.yml
           echo "${{ secrets.PROPERTIES }}" > ./application.yml
         shell: bash
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: application.yml
+          path: ./src/main/resources/application.yml
 
       - name: Cat application.yml
         run: cat ./src/main/resources/application.yml
