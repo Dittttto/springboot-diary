@@ -183,3 +183,5 @@ src/main/resources/db.properties
 
 # jwt.properties
 src/main/resources/jwt.properties
+
+src/main/resources/application.yml
