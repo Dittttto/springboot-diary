@@ -24,9 +24,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cat application.yml
-        run: cat ./src/main/resources/application.yml
-
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
