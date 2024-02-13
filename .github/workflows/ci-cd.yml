@@ -32,8 +32,8 @@ jobs:
           touch ./application.yml
           echo "${{ secrets.PROPERTIES }}" > ./application.yml
         shell: bash
-
-      - uses: actions/upload-artifact@v2
+      - name: checkout source
+        uses: actions/upload-artifact@v2
         with:
           name: application.yml
           path: ./src/main/resources/application.yml
