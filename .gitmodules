@@ -1,3 +1,4 @@
 [submodule "project/submodule-config"]
     path = project/submodule-config
     url = https://github.com/Dittttto/submodule-config.git
+    branch = master
