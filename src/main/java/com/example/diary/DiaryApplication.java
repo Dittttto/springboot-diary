@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-@PropertySource(value = {"classpath:db.properties", "classpath:jwt.properties"})
+@PropertySource(value = {"classpath:db.properties", "classpath:jwt.properties"}, ignoreResourceNotFound = true)
 public class DiaryApplication {
 
     public static void main(String[] args) {
