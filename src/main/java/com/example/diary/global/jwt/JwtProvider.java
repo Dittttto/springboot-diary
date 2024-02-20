@@ -3,8 +3,8 @@ package com.example.diary.global.jwt;
 import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.member.repository.MemberRepository;
 import com.example.diary.global.exception.CustomException;
-import com.example.diary.global.exception.CustomJwtException;
 import com.example.diary.global.exception.ErrorCode;
+import com.example.diary.global.exception.jwt.CustomJwtException;
 import com.example.diary.global.jwt.repository.TokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -29,7 +29,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
-import static com.example.diary.global.exception.JwtErrorCode.INVALID_TOKEN_EXCEPTION;
+import static com.example.diary.global.exception.jwt.JwtErrorCode.INVALID_TOKEN_EXCEPTION;
 import static com.example.diary.global.jwt.TokenState.*;
 
 @Slf4j
