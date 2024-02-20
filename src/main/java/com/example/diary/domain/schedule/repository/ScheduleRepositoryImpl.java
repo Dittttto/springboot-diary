@@ -20,8 +20,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     private final ScheduleJpaRepository scheduleJpaRepository;
 
     @Override
-    public void register(ScheduleCreateDTO dto) {
-        scheduleJpaRepository.save(
+    public Schedule register(ScheduleCreateDTO dto) {
+        ScheduleEntity entity = scheduleJpaRepository.save(
                 new ScheduleEntity(
                         dto.getTitle(),
                         dto.getContent(),
@@ -34,6 +34,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                                 : null
                 )
         );
+
+        return Schedule.from(entity);
     }
 
     @Override

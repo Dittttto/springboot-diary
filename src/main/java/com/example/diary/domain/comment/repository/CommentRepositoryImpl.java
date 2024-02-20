@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,18 +18,19 @@ public class CommentRepositoryImpl implements CommentRepository {
     private final CommentJpaRepository commentJpaRepository;
 
     @Override
-    public void register(CommentCreateDto dto) {
+    public Comment register(CommentCreateDto dto) {
         CommentEntity commentEntity = CommentEntity.of(
                 dto.getSchedule().toEntity(),
                 dto.getMember().toEntity(),
                 dto.getContent()
         );
 
-        commentJpaRepository.save(commentEntity);
+        CommentEntity entity = commentJpaRepository.save(commentEntity);
+        return Comment.from(entity);
     }
 
     @Override
-    public void registerSubComment(Long parentCommentId, CommentCreateDto dto) {
+    public Comment registerSubComment(Long parentCommentId, CommentCreateDto dto) {
         CommentEntity parentComment = commentJpaRepository
                 .getReferenceById(parentCommentId);
 
@@ -39,15 +41,13 @@ public class CommentRepositoryImpl implements CommentRepository {
         );
 
         parentComment.addChildComment(commentEntity);
+
+        return Comment.from(parentComment);
     }
 
     @Override
-    public Comment findById(Long id) {
-        return commentJpaRepository
-                .findById(id)
-                .map(Comment::from)
-                .orElseThrow(() ->
-                        new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
+    public Optional<Comment> findById(Long id) {
+        return commentJpaRepository.findById(id).map(Comment::from);
 
     }
 

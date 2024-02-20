@@ -33,7 +33,6 @@ public class Comment {
         TreeSet<Comment> comments = new TreeSet<>(childCommentComparator);
         entity.getChildComment().forEach(childComment ->
                 comments.add(Comment.from(childComment)));
-
         return new Comment(
                 entity.getId(),
                 MemberInfoDTO.from(Member.from(entity.getMember())),
