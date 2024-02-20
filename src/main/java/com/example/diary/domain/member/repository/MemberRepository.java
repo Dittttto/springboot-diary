@@ -7,7 +7,7 @@ import com.example.diary.domain.member.dto.service.MemberUpdateDTO;
 import java.util.Optional;
 
 public interface MemberRepository {
-    void register(MemberCreateDTO dto);
+    Member register(MemberCreateDTO dto);
     Optional<Member> findById(Long id);
     Optional<Member> findByEmail(String email);
     Member updateById(Long id, MemberUpdateDTO dto);

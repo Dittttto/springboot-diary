@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public void register(MemberCreateRequestDTO dto) {
+    public MemberInfoDTO register(MemberCreateRequestDTO dto) {
         checkMemberAlreadyExist(dto);
         MemberCreateDTO memberCreateDTO = new MemberCreateDTO(
                 dto.username(),
@@ -37,7 +37,8 @@ public class MemberServiceImpl implements MemberService {
                 passwordEncoder.encode(dto.password())
         );
 
-        memberRepository.register(memberCreateDTO);
+        Member register = memberRepository.register(memberCreateDTO);
+        return MemberInfoDTO.from(register);
     }
 
     private void checkMemberAlreadyExist(MemberCreateRequestDTO dto) {
@@ -54,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 
         if (!requestMember.equals(member)) {
-            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+            throw new CustomException(ErrorCode.UN_AUTHORIZATION_EXCEPTION);
         }
 
         return MemberInfoDTO.from(member);
@@ -65,7 +66,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
         if (!requestMember.equals(member)) {
-            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+            throw new CustomException(ErrorCode.UN_AUTHORIZATION_EXCEPTION);
         }
 
         Member update = member.update(
@@ -85,7 +86,7 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 
         if (!requestMember.equals(member)) {
-            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+            throw new CustomException(ErrorCode.UN_AUTHORIZATION_EXCEPTION);
         }
 
         if (member.isPasswordNotMatch(dto.password(), passwordEncoder)) {

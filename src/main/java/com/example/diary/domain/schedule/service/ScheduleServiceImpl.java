@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 @Service
+// TODO: @Transactional class 단위로 리팩토링
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
@@ -29,7 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public void register(ScheduleCreateRequestDTO dto, Member member) {
+    public ScheduleInfoDTO register(ScheduleCreateRequestDTO dto, Member member) {
         Member assignedMember = null;
 
         if (dto.assignedMemberId() != null) {
@@ -37,7 +37,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                     .orElseThrow(() ->
                             new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
         }
-
 
         ScheduleCreateDTO scheduleCreateDTO = new ScheduleCreateDTO(
                 dto.title(),
@@ -49,7 +48,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 assignedMember
         );
 
-        scheduleRepository.register(scheduleCreateDTO);
+        return ScheduleInfoDTO.from(scheduleRepository.register(scheduleCreateDTO));
     }
 
     @Override

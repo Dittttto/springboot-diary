@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
-    public void register(CommentCreateRequestDTO dto, Member member) {
+    public CommentInfoDTO register(CommentCreateRequestDTO dto, Member member) {
         Schedule schedule = scheduleRepository.findById(dto.scheduleId())
                 .orElseThrow(() ->
                         new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
@@ -35,41 +35,49 @@ public class CommentServiceImpl implements CommentService {
                 dto.content()
         );
 
+        Comment registered;
+
         if (dto.parentCommentId() != null) {
-            commentRepository.registerSubComment(dto.parentCommentId(), createDto);
+            registered = commentRepository
+                    .registerSubComment(dto.parentCommentId(), createDto);
         } else {
-            commentRepository.register(createDto);
+            registered = commentRepository.register(createDto);
         }
+
+        return CommentInfoDTO.from(registered);
     }
 
     @Transactional(readOnly = true)
     public CommentInfoDTO findById(Long id) {
-        Comment comment = commentRepository.findById(id);
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
         return CommentInfoDTO.from(comment);
     }
 
     @Transactional(readOnly = true)
-    public List<CommentInfoDTO> findByMemberId(Long memberId) {
+    public List<CommentInfoDTO> findAllByMemberId(Long memberId) {
         return commentRepository.findByMemberId(memberId).stream()
                 .map(CommentInfoDTO::from)
                 .toList();
     }
 
     public CommentInfoDTO update(Long id, CommentUpdateRequestDTO dto, Member member) {
-        Comment originComment = commentRepository.findById(id);
+        Comment originComment = commentRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 
         if (originComment.isNotOwner(member)) {
-            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+            throw new CustomException(ErrorCode.UN_AUTHORIZATION_EXCEPTION);
         }
 
         return CommentInfoDTO.from(commentRepository.updateById(id, dto.content()));
     }
 
     public void delete(Long id, Member member) {
-        Comment comment = commentRepository.findById(id);
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EXCEPTION));
 
         if (comment.isNotOwner(member)) {
-            throw new CustomException(ErrorCode.PASSWORD_INVALID_EXCEPTION);
+            throw new CustomException(ErrorCode.UN_AUTHORIZATION_EXCEPTION);
         }
 
         commentRepository.deleteById(id);

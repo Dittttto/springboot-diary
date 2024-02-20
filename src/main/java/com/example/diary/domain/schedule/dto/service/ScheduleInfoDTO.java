@@ -50,6 +50,7 @@ public class ScheduleInfoDTO {
         Map<Long, CommentInfoDTO> childCommentMap = comments.stream()
                 .map(CommentInfoDTO::from)
                 .collect(Collectors.toMap(CommentInfoDTO::getCommentId, Function.identity()));
+
         return childCommentMap.values().stream()
                 .filter(comment -> comment.getParentCommentId() == null)
                 .collect(Collectors.toCollection(() ->

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CommentInfoDTO {
     private final Long commentId;
-    private final MemberInfoDTO memberId;
+    private final MemberInfoDTO memberInfoDTO;
     private final Long scheduleId;
     private final String content;
     private Long parentCommentId;

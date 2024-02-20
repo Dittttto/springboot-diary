@@ -8,7 +8,7 @@ import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.member.dto.service.MemberInfoDTO;
 
 public interface MemberService {
-    void register(MemberCreateRequestDTO dto);
+    MemberInfoDTO register(MemberCreateRequestDTO dto);
 
     MemberInfoDTO getById(Long id, Member member);
 

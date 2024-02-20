@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface ScheduleService {
 
-    void register(ScheduleCreateRequestDTO dto, Member member);
+    ScheduleInfoDTO register(ScheduleCreateRequestDTO dto, Member member);
 
     List<ScheduleInfoDTO> getSchedules();
 

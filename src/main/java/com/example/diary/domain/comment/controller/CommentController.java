@@ -41,7 +41,7 @@ public class CommentController {
     ) {
         return ResponseEntity
                 .ok(ResponseDTO
-                        .success(commentService.findByMemberId(member.getId())));
+                        .success(commentService.findAllByMemberId(member.getId())));
     }
 
     @Operation(summary = "댓글 생성")

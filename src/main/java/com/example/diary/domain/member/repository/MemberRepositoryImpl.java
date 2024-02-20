@@ -1,12 +1,12 @@
 package com.example.diary.domain.member.repository;
 
-import com.example.diary.global.exception.CustomException;
-import com.example.diary.global.exception.ErrorCode;
+import com.example.diary.domain.member.dto.service.MemberCreateDTO;
+import com.example.diary.domain.member.dto.service.MemberUpdateDTO;
 import com.example.diary.domain.member.infrastructure.MemberJpaRepository;
 import com.example.diary.domain.member.infrastructure.entity.MemberEntity;
 import com.example.diary.domain.member.model.Member;
-import com.example.diary.domain.member.dto.service.MemberCreateDTO;
-import com.example.diary.domain.member.dto.service.MemberUpdateDTO;
+import com.example.diary.global.exception.CustomException;
+import com.example.diary.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +19,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
 
     @Override
-    public void register(MemberCreateDTO dto) {
+    public Member register(MemberCreateDTO dto) {
         MemberEntity memberEntity = new MemberEntity(
                 dto.getEmail(),
                 dto.getUsername(),
@@ -27,7 +27,8 @@ public class MemberRepositoryImpl implements MemberRepository {
                 dto.getRole()
         );
 
-        memberJpaRepository.save(memberEntity);
+        MemberEntity saved = memberJpaRepository.save(memberEntity);
+        return Member.from(saved);
     }
 
     @Override
