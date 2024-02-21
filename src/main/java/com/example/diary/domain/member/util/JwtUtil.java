@@ -1,7 +1,8 @@
 package com.example.diary.domain.member.util;
 
 import com.example.diary.domain.member.infrastructure.entity.MemberRole;
-import com.example.diary.global.exception.CustomJwtException;
+import com.example.diary.global.exception.jwt.CustomJwtException;
+import com.example.diary.global.exception.jwt.JwtErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -21,8 +22,6 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
-
-import static com.example.diary.global.exception.JwtErrorCode.TOKEN_INVALID;
 
 @Slf4j
 @Component
@@ -68,7 +67,7 @@ public class JwtUtil {
 
     public String substringToken(String tokenValue) {
         if (!StringUtils.hasText(tokenValue) || !tokenValue.startsWith(BEARER_PREFIX)) {
-            throw new CustomJwtException(TOKEN_INVALID);
+            throw new CustomJwtException(JwtErrorCode.INVALID_TOKEN_EXCEPTION);
         }
 
         return tokenValue.substring(BEARER_PREFIX_LENGTH);
@@ -94,7 +93,7 @@ public class JwtUtil {
                 .filter(cookie -> cookie.getName().equals(AUTHORIZATION_HEADER_KEY))
                 .findFirst()
                 .orElseThrow(() ->
-                        new CustomJwtException(TOKEN_INVALID, TOKEN_INVALID.getMessage()));// TODO: 어떤 예외를 처히하는게 맞을까?
+                        new CustomJwtException(JwtErrorCode.INVALID_TOKEN_EXCEPTION));// TODO: 어떤 예외를 처히하는게 맞을까?
 
         return URLDecoder.decode(findCookie.getValue(), StandardCharsets.UTF_8);
     }

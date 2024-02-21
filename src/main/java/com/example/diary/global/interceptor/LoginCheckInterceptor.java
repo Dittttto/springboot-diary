@@ -4,9 +4,9 @@ import com.example.diary.domain.member.model.Member;
 import com.example.diary.domain.member.repository.MemberRepository;
 import com.example.diary.domain.member.util.JwtUtil;
 import com.example.diary.global.exception.CustomException;
-import com.example.diary.global.exception.CustomJwtException;
 import com.example.diary.global.exception.ErrorCode;
-import com.example.diary.global.exception.JwtErrorCode;
+import com.example.diary.global.exception.jwt.CustomJwtException;
+import com.example.diary.global.exception.jwt.JwtErrorCode;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,12 +33,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         String tokenValue = jwtUtil.getTokenFromRequest(request);
         if (!StringUtils.hasText(tokenValue) || tokenValue.equals("INVALID")) {
-            throw new CustomJwtException(JwtErrorCode.TOKEN_INVALID);
+            throw new CustomJwtException(JwtErrorCode.INVALID_TOKEN_EXCEPTION);
         }
 
         String token = jwtUtil.substringToken(tokenValue);
         if (!jwtUtil.validate(token)) {
-            throw new CustomJwtException(JwtErrorCode.TOKEN_INVALID);
+            throw new CustomJwtException(JwtErrorCode.INVALID_TOKEN_EXCEPTION);
         }
 
         Claims memberInfo = jwtUtil.getMemberInfoFromToken(token);
