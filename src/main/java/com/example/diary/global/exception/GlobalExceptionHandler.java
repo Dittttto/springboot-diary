@@ -1,5 +1,6 @@
 package com.example.diary.global.exception;
 
+import com.example.diary.global.exception.jwt.CustomJwtException;
 import com.example.diary.global.web.dto.response.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomJwtException.class)
     public ResponseEntity<?> customJwtExceptionHandler(CustomJwtException e) {
-        return new ResponseEntity<>(ResponseDTO.error(e.getErrorCode().getStatus(), e.getMessage()), e.getErrorCode().getStatus());
+        return new ResponseEntity<>(ResponseDTO.error(e.getStatus(), e.getMessage()), e.getStatus());
 
     }
 
