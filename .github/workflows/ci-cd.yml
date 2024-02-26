@@ -3,13 +3,13 @@ name: CD with Gradle
 # main branch 에 코드가 push 되거나 pull request 되었을 때
 on:
   push:
-    branches:
-      - cicd
+    branches: [ cicd ]
   pull_request:
+    branches: [ cicd ]
     types: [ opened, reopened, synchronize ]
 
 permissions:
-  contents: read
+  checks: write
 
 jobs:
   deploy:
@@ -32,17 +32,18 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean build
 
-      - name: register the test result to pull request
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: ${{ always() }}
-        with:
-          files: '**/build/test-results/test/TEST-*.xml'
+#      - name: register the test result to pull request
+#        uses: EnricoMi/publish-unit-test-result-action@v1
+#        if: ${{ always() }}
+#        with:
+#          files: '**/build/test-results/test/TEST-*.xml'
 
       - name: If build fail
         uses: mikepenz/action-junit-report@v4.1.0
         if: always()
         with:
           report_paths: '**/build/test-results/test/TEST-*.xml'
+          token: ${{ github.token }}
 
       - name: notify to slack
         uses: rtCamp/action-slack-notify@v2.2.1
