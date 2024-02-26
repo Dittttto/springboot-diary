@@ -16,7 +16,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Builder
 @Table(name = "schedule")
 @SQLDelete(sql = "update schedule set deleted_at = NOW() where id = ?")
 @SQLRestriction(value = "deleted_at is NULL")
