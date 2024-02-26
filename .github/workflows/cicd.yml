@@ -50,7 +50,7 @@ jobs:
           SLACK_COLOR: ${{ job.status }}
           SLACK_MESSAGE: '${{ github.repository }}'
           SLACK_TITLE: BUILD
-          SLACK_USERNAME: Github Actions test
+          SLACK_USERNAME: Github Actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   deploy:
@@ -78,3 +78,15 @@ jobs:
             docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_REPO }}:latest
             docker-compose up -d
             docker image prune -f
+            - name: notify to slack
+
+      - name: notify to slack
+        uses: rtCamp/action-slack-notify@v2.2.1
+        if: always()
+        env:
+          SLACK_CHANNEL: git
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: '${{ github.repository }}'
+          SLACK_TITLE: DEPLOY
+          SLACK_USERNAME: Github Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
