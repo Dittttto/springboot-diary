@@ -12,13 +12,13 @@ permissions:
   contents: read
 
 jobs:
-  build-test:
+  deploy:
     runs-on: ubuntu-latest # ubuntu 최신 버전에서 script 를 실행
     steps:
       - name: checkout source
         uses: actions/checkout@v3
         with:
-          token: ${{secrets.ACCESS_TOKEN}}
+          token: ${{ secrets.ACCESS_TOKEN }}
           submodules: true
 
       - name: Set up JDK 17
@@ -30,26 +30,50 @@ jobs:
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build -x test
+          ./gradlew clean build
 
-      - name: Docker build & push to docker repo
-        run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}:latest .
-          docker push ${{ secrets.DOCKER_REPO }}:latest
-
-      - name: Deploy to server
-        uses: appleboy/ssh-action@master
-        id: deploy
+      - name: register the test result to pull request
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}
         with:
-          host: ${{ secrets.HOST }}
-          username: ec2-user
-          key: ${{ secrets.PRIVATE_KEY }}
-          envs: GITHUB_SHA
-          script: |
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            sudo docker rm -f $(docker ps -qa)
-            sudo docker pull ${{secrets.DOCKER_REPO}}:latest
-            docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_REPO }}:latest
-            docker-compose up -d
-            docker image prune -f
+          files: '**/build/test-results/test/TEST-*.xml'
+
+      - name: If build fail
+        uses: mikepenz/action-junit-report@v4.1.0
+        if: always()
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+
+      - name: notify to slack
+        uses: rtCamp/action-slack-notify@v2.2.1
+        if: failure()
+        env:
+          SLACK_CHANNEL: github
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'Post Content :rocket:'
+          SLACK_TITLE: Post Title
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+#      - name: Docker build & push to docker repo
+#        run: |
+#          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+#          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}:latest .
+#          docker push ${{ secrets.DOCKER_REPO }}:latest
+#
+#      - name: Deploy to server
+#        uses: appleboy/ssh-action@master
+#        id: deploy
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ec2-user
+#          key: ${{ secrets.PRIVATE_KEY }}
+#          envs: GITHUB_SHA
+#          script: |
+#            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+#            sudo docker rm -f $(docker ps -qa)
+#            sudo docker pull ${{secrets.DOCKER_REPO}}:latest
+#            docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_REPO }}:latest
+#            docker-compose up -d
+#            docker image prune -f
