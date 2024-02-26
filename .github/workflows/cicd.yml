@@ -48,7 +48,7 @@ jobs:
         env:
           SLACK_CHANNEL: git
           SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: ${{ github.repository }} :rotating_light:'
+          SLACK_MESSAGE: '${{ github.repository }}'
           SLACK_TITLE: BUILD
           SLACK_USERNAME: Github Actions test
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
