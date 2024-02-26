@@ -28,7 +28,7 @@ class CommentTest {
         Comment comment = Comment.from(commentEntity);
 
         //then
-        assertThat(comment).isNull();
+        assertThat(comment).isNotNull();
         assertThat(comment).isInstanceOf(Comment.class);
         assertThat(comment.getScheduleId()).isEqualTo(schedule.getId());
         assertThat(comment.getMemberInfo().getEmail()).isEqualTo(member.getEmail());
