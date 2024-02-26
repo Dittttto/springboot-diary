@@ -1,7 +1,12 @@
-name: CD with Gradle
+name: CI with Gradle
 
 # main branch 에 코드가 push 되거나 pull request 되었을 때
 on:
+  push:
+    branches:
+      - master
+      - deploy
+      - dev
   pull_request:
     branches: [ target ]
     types: [ opened, reopened, synchronize ]
@@ -10,7 +15,7 @@ permissions:
   checks: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest # ubuntu 최신 버전에서 script 를 실행
     steps:
       - name: checkout source
@@ -39,16 +44,22 @@ jobs:
 
       - name: notify to slack
         uses: rtCamp/action-slack-notify@v2.2.1
-        if: always()
+        with:
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        if: ${{ failure() }}
         env:
           SLACK_CHANNEL: git
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content :rocket:'
-          SLACK_TITLE: Post Title
-          SLACK_USERNAME: rtCamp
+          SLACK_MESSAGE: 'TEST FAIL: ${{ github.repository }} :rotating_light:'
+          SLACK_TITLE: BUILD
+          SLACK_USERNAME: Github Actions test
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest # ubuntu 최신 버전에서 script 를 실행
+    steps:
       - name: Docker build & push to docker repo
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
