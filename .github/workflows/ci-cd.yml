@@ -30,12 +30,6 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean build
 
-      - name: register the test result to pull request
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: ${{ always() }}
-        with:
-          files: '**/build/test-results/test/TEST-*.xml'
-
       - name: If build fail
         uses: mikepenz/action-junit-report@v4.1.0
         if: always()
@@ -45,7 +39,7 @@ jobs:
 
       - name: notify to slack
         uses: rtCamp/action-slack-notify@v2.2.1
-        if: failure()
+        if: always()
         env:
           SLACK_CHANNEL: github
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
