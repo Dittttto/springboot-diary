@@ -44,13 +44,11 @@ jobs:
 
       - name: notify to slack
         uses: rtCamp/action-slack-notify@v2.2.1
-        with:
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         if: ${{ failure() }}
         env:
           SLACK_CHANNEL: git
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_ICON: https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png
           SLACK_MESSAGE: 'TEST FAIL: ${{ github.repository }} :rotating_light:'
           SLACK_TITLE: BUILD
           SLACK_USERNAME: Github Actions test
