@@ -2,8 +2,6 @@ name: CD with Gradle
 
 # main branch 에 코드가 push 되거나 pull request 되었을 때
 on:
-  push:
-    branches: [ cicd ]
   pull_request:
     branches: [ cicd ]
     types: [ opened, reopened, synchronize ]
