@@ -39,8 +39,6 @@ class CommentTest {
         //given
         Member member = new TestMember("modafi@gmail.com");
         TestComment testComment = new TestComment();
-        System.out.println(member.getEmail());
-        System.out.println(testComment.getMemberInfo().getEmail());
         //when
         boolean result = testComment.isNotOwner(member);
 
@@ -53,8 +51,6 @@ class CommentTest {
         //given
         Member member = new TestMember();
         TestComment testComment = new TestComment();
-        System.out.println(member.getEmail());
-        System.out.println(testComment.getMemberInfo().getEmail());
         //when
         boolean result = testComment.isNotOwner(member);
 
