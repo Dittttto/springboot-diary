@@ -51,6 +51,7 @@ public class ScheduleEntity {
     private MemberEntity owner;
 
     @ToString.Exclude
+    @Builder.Default
     @OneToMany(mappedBy = "schedule")
     Set<CommentEntity> commentEntities = new LinkedHashSet<>();
 
