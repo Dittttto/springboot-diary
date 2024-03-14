@@ -37,7 +37,11 @@ dependencies {
     // Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.1'
+
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     // JWT
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
